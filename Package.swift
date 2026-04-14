@@ -1,12 +1,6 @@
 // swift-tools-version:5.3
 
-import Foundation
 import PackageDescription
-
-var sources = ["src/parser.c"]
-if FileManager.default.fileExists(atPath: "src/scanner.c") {
-    sources.append("src/scanner.c")
-}
 
 let package = Package(
     name: "TreeSitterCSS",
@@ -21,12 +15,15 @@ let package = Package(
             name: "TreeSitterCSS",
             dependencies: [],
             path: ".",
-            sources: sources,
+            sources: [
+                "src/parser.c",
+                "src/scanner.c",
+            ],
             resources: [
-                .copy("queries")
+                .copy("queries"),
             ],
             publicHeadersPath: "bindings/swift",
-            cSettings: [.headerSearchPath("src")]
+            cSettings: [.headerSearchPath("src")],
         ),
         .testTarget(
             name: "TreeSitterCSSTests",
@@ -34,8 +31,8 @@ let package = Package(
                 "SwiftTreeSitter",
                 "TreeSitterCSS",
             ],
-            path: "bindings/swift/TreeSitterCSSTests"
-        )
+            path: "bindings/swift/TreeSitterCSSTests",
+        ),
     ],
-    cLanguageStandard: .c11
+    cLanguageStandard: .c11,
 )
